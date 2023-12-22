@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using Test.Web.Api.Models;
 using Test.Web.Api.Services.Security.Models;
+using static Test.Web.Api.Extensions.AuthenticationService;
 
 namespace Test.Web.Api.Services.Security
 {
@@ -18,12 +19,12 @@ namespace Test.Web.Api.Services.Security
 
     public class AuthenticationService : IUserService
     {
-        private readonly Jwt _jwtSettings;
+        private readonly JwtSettings _jwtSettings;
         protected readonly UserManager<IdentityUser> _userManager;
         protected readonly RoleManager<IdentityRole> _roleManager;
 
         public AuthenticationService(UserManager<IdentityUser> userManager,
-            IOptions<Jwt> jwtSettings,
+            IOptions<JwtSettings> jwtSettings,
             RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
@@ -33,6 +34,7 @@ namespace Test.Web.Api.Services.Security
 
         public async Task<string?> RegisterAsync(RegiserUser userRequest)
         {
+            //HACK: Need to return a better model with error messages for register
             IdentityUser user = new()
             {
                 Email = userRequest.Username,
@@ -81,7 +83,9 @@ namespace Test.Web.Api.Services.Security
 
         public async Task<string?> LoginAsync(LoginUser loginRequest)
         {
+            //HACK: Need to return a better model with error messages for login
             var  user = await _userManager.FindByEmailAsync(loginRequest.Email);
+
             if (user != null)
             {
                 var result = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, loginRequest.Password);

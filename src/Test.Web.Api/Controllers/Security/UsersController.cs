@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Test.Web.Api.Services.Security;
 using Test.Web.Api.Services.Security.Models;
+using Test.Web.Api.Models;
 
 namespace Test.Web.Api.Controllers.Security
 {
@@ -22,6 +23,7 @@ namespace Test.Web.Api.Controllers.Security
         {
             var token = await _userService.RegisterAsync(userParam);
 
+            // TODO: Poor logic for checking the result
             if (token == null || string.IsNullOrEmpty(token))
                 return BadRequest(new { message = "Error" });
 

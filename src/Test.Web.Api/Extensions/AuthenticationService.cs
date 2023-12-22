@@ -17,7 +17,8 @@ namespace Test.Web.Api.Extensions
 {
     public static class AuthenticationService
     {
-        private static string _connectionStringTemp => "Server=LSBSA-7MYYJS3\\MSSQLSERVER01;Database=Test;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
+        //TODO: Add this to the config
+        private static string _connectionStringTemp => "Server=localhost;Database=Testing_World;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
 
         public static IServiceCollection AddAuthenticationServices(this IServiceCollection services, IConfiguration config)
         {
@@ -38,9 +39,8 @@ namespace Test.Web.Api.Extensions
             .AddDefaultTokenProviders();
 
             var jwtSettingsSection = config.GetSection("JwtSettings");
-            services.Configure<Jwt>(jwtSettingsSection);
-            // configure jwt authentication
-            var jwtSettings = jwtSettingsSection.Get<Jwt>();
+            services.Configure<JwtSettings>(jwtSettingsSection);
+            var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
             var key = Encoding.ASCII.GetBytes(jwtSettings.Key);
 
             services.AddAuthentication(x =>
