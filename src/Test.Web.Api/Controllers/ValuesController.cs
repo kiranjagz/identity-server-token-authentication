@@ -21,7 +21,7 @@ namespace Test.Web.Api.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IEnumerable<string> Get()
         {
             _logger.LogInformation("Entered the get method that returns a enumerable");
