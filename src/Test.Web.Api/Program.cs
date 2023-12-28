@@ -27,13 +27,12 @@ namespace Test.Web.Api
             var logger = new LoggerConfiguration()
                     .ReadFrom.Configuration(builder.Configuration)
                     .Enrich.FromLogContext()
-                    .WriteTo.Console()    
+                    .WriteTo.Console()
                     .CreateLogger();
             builder.Logging.ClearProviders();
             builder.Logging.AddSerilog(logger);
 
-            // Add services to the container.
-            builder.Services.AddControllers();
+            // Add services to the container
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
@@ -44,6 +43,16 @@ namespace Test.Web.Api
                 .AddAuthenticationServices(builder.Configuration)
                 .AddHealthChecks();
 
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add<LogFilter>();
+            })
+                .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.WriteIndented = true;
+                options.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict;
+            });
+
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -53,9 +62,9 @@ namespace Test.Web.Api
                     Description = "Does important stuff",
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact
                     {
-                         Name = "Name",
-                         Email = "Email",
-                         Url = new Uri("http://localhost:8080/")
+                        Name = "Name",
+                        Email = "Email",
+                        Url = new Uri("http://localhost:8080/")
                     },
                     TermsOfService = new Uri("http://localhost:8080/"),
                     License = new Microsoft.OpenApi.Models.OpenApiLicense { Name = "License", Url = new Uri("http://localhost:8080/") }

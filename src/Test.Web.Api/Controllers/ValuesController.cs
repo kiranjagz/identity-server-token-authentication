@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using Test.Web.Api.Filters;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,7 +7,6 @@ namespace Test.Web.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [ServiceFilter(typeof(LogFilter))]
     public class ValuesController : ControllerBase
     {
         private readonly ILogger<WeatherForecastController> _logger;
@@ -22,34 +19,41 @@ namespace Test.Web.Api.Controllers
         // GET: api/<ValuesController>
         [HttpGet]
         //[Authorize]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
             _logger.LogInformation("Entered the get method that returns a enumerable");
 
-            return new string[] { "value1", "value2" };
+            return Ok(new
+            {
+                Value = "Value"
+            });
         }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         [Authorize(Roles = "User")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
             if (id <= 1)
             {
-                _logger.LogError("The Id used is invalid", id);
-                return id.ToString();
+                _logger.LogError($"The Id used is invalid: {id}");
+                return BadRequest();
             }
 
-            _logger.Log(LogLevel.Information, $"Entered the get method a string with id: {id}");
+            _logger.LogInformation($"Entered the get method a string with id: {id}");
 
-            return id.ToString();
+            return Ok(new
+            {
+                Id = id
+            });
         }
 
         // POST api/<ValuesController>
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] string value)
         {
+            return Ok();
         }
     }
 }
