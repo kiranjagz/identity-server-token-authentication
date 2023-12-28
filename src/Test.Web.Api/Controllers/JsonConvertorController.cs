@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Test.Web.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     [Authorize]
     public class JsonConvertorController : ControllerBase

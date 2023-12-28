@@ -34,7 +34,7 @@ namespace Test.Web.Api.Services.Security
 
         public async Task<string?> RegisterAsync(RegiserUser userRequest)
         {
-            //HACK: Need to return a better model with error messages for register
+            // HACK: Need to return a better model with error messages for register
             IdentityUser user = new()
             {
                 Email = userRequest.Username,
@@ -83,7 +83,7 @@ namespace Test.Web.Api.Services.Security
 
         public async Task<string?> LoginAsync(LoginUser loginRequest)
         {
-            //HACK: Need to return a better model with error messages for login
+            // HACK: Need to return a better model with error messages for login
             var  user = await _userManager.FindByEmailAsync(loginRequest.Email);
 
             if (user != null)
@@ -106,11 +106,11 @@ namespace Test.Web.Api.Services.Security
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Key);
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Name, user.UserName),
+                new(ClaimTypes.Email, user.Email),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
             };
 
             var roleResult = await _userManager.GetRolesAsync(user);

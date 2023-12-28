@@ -17,8 +17,8 @@ namespace Test.Web.Api.Extensions
 {
     public static class AuthenticationService
     {
-        //TODO: Add this to the config
-        private static string _connectionStringTemp => "Server=localhost;Database=Testing_World;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
+        // TODO: Add this to the config
+        private static string ConnectionStringTemp => "Server=localhost;Database=Testing_World;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True";
 
         public static IServiceCollection AddAuthenticationServices(this IServiceCollection services, IConfiguration config)
         {
@@ -27,7 +27,7 @@ namespace Test.Web.Api.Extensions
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
 
-            services.AddDbContext<IdentityDatabaseContext>(options => options.UseSqlServer(_connectionStringTemp));
+            services.AddDbContext<IdentityDatabaseContext>(options => options.UseSqlServer(ConnectionStringTemp));
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 //! Change your security Policy here to suits your policy
