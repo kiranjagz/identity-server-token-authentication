@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Test.Web.Api.Models;
+using Test.Web.Api.Models.Todo;
+using Test.Web.Api.Models.WeatherForecast;
 
 namespace Test.Web.Api.DataContext
 {

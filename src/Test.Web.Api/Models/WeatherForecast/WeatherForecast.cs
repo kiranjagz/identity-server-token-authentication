@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Test.Web.Api.Models
+namespace Test.Web.Api.Models.WeatherForecast
 {
     public class WeatherForecast
     {

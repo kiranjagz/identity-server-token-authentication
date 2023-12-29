@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Test.Web.Api.DataContext;
-using Test.Web.Api.Models;
+using Test.Web.Api.Models.WeatherForecast;
 
 namespace Test.Web.Api.Controllers
 {
