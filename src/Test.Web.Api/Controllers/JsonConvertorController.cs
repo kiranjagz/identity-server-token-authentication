@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using System.Net;
 using System.Text;
+using Test.Web.Api.Extensions;
 using Test.Web.Api.Models.JsonConvertor;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,12 +14,11 @@ namespace Test.Web.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class JsonConvertorController : ControllerBase
     {
         private readonly ILogger<JsonConvertorController> _logger;
         private readonly IConvertJsonToXML _convertJsonToXML;
-
 
         public JsonConvertorController(IConvertJsonToXML convertJsonToXML,
             ILogger<JsonConvertorController> logger)
@@ -35,10 +35,9 @@ namespace Test.Web.Api.Controllers
             {
                 _logger.LogTrace($"Note: Trace logs for converting the message to XML");
 
-                // TODO: Add a extension method to handle the validation of a string to json
-                var isJsonFormat = JToken.Parse(message.Message);
+                var IsValidJson = message.Message.IsValidJson();
 
-                if (!isJsonFormat.HasValues)
+                if (!IsValidJson)
                 {
                     _logger.LogWarning($"The message is not in correct json format. Payload: {message.Message}");
 

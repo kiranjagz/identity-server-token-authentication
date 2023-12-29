@@ -100,6 +100,7 @@ namespace Test.Web.Api.Services.Security
             return null;
         }
 
+        // TODO: Move to a helper service
         private async Task<string> GenerateJWTTokenAsync(IdentityUser user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
